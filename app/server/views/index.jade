@@ -29,26 +29,32 @@ form(method="post", action="/").form-horizontal#myform
 - if (results.length)
 	each sheet,i in results
 		- console.log(sheet)
-		h1=sheet.title
-		div(id="menu"+i)
-			- each item in sheet.items
-				//- console.log(item)
-				- if (item.prezzo)
-					.row
-						.col-sm-11.grid.col-700(style="overflow:hidden")
-							span.food-menu-label!=''+item.nome+(item.descrizione ? '<br /><small>'+item.descrizione+'</small>' : '')
-						.col-sm-1.grid.col-220.fit
-							.food-menu-price.powered.text-right!=item.prezzo
-				- else
-					.row
-						.col-sm-12.grid.col-940!="&nbsp;"
-					.row
-						.col-sm-12.grid.col-940
-							b=item.nome
-		textarea.form-control(name="to")
-		div.text-center
-			br
-			button(type='submit').btn.btn-success="Compose email"
+		h1(id="box"+i,style="padding-top:60px")
+			a(href="#box#{i}",onclick="$('#cnt#{i}').toggle()")=sheet.title
+		div(id="cnt"+i,style="display:none;")
+			div(id="menu"+i)
+				- each item in sheet.items
+					//- console.log(item)
+					- if (item.prezzo)
+						.row
+							.col-sm-11.grid.col-700(style="overflow:hidden")
+								span.food-menu-label!=''+item.nome+(item.descrizione ? '<br /><small>'+item.descrizione+'</small>' : '')
+							.col-sm-1.grid.col-220.fit
+								.food-menu-price.powered.text-right!=item.prezzo
+					- else
+						- if (i>0)
+							.row
+								.col-sm-12.grid.col-940!="&nbsp;"
+						.row
+							.col-sm-12.grid.col-940
+								b=item.nome
+			hr
+			h2="Copy to Wordpress"
+			textarea.form-control(rows="10",id="textarea"+i)
+			script
+				$(document).ready(function(){
+					$('#textarea'+#{i}).val($('#menu'+#{i}).html())
+				})
 br
 
 
