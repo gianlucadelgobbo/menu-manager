@@ -1,0 +1,33 @@
+{
+  "name": "mongo-invoices",
+  "version": "0.0.0",
+  "description": "open-source partners manager system build on node.js and mongodb",
+  "main": "app.js",
+  "dependencies": {
+    "emailjs": "~0.3.2",
+    "express": "~2.5.11",
+    "jade": "~0.27.5",
+    "moment": "~1.7.0",
+    "stylus": "~0.29.0",
+    "google-spreadsheet": "~0.2.6",
+    "google-spreadsheets": "~0.3.0",
+    "googleclientlogin": "~0.2.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/gianlucadelgobbo/partners-manager.git"
+  },
+  "keywords": [
+    "partners-manager",
+    "mongodb",
+    "node.js"
+  ],
+  "author": "Gianluca Del Gobbo <g.delgobbo@flyer.it>",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "private": true
+}

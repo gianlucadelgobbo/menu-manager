@@ -1,0 +1,58 @@
+form(method="post", action="/").form-horizontal#myform
+	.well
+		// store the userId on the client side in a hidden input field //
+		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+			.alert.alert-error
+				h4="There are some errors"
+				ul
+					- for(a=0;a<msg.e.length;a++)
+						li=msg.e[a].m
+		- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+			.alert.alert-success
+				h4="There are some messages"
+				ul
+					- for(a=0;a<msg.c.length;a++)
+						li=msg.c[a].m
+		div.row
+			div.col-sm-6.col-sm-offset-3
+				p
+					label(for='spreadsheet_key')="Spreadsheet Key"
+					input(type="text",placeholder="Spreadsheet Key", value=post.spreadsheet_key ? post.spreadsheet_key : '1lbK_2ojJ5BVHe0WE-fnA4j0d3WhghT9aLtvxsHHmEUo', name='spreadsheet_key')#spreadsheet_key.form-control
+				p
+					label(for='email')="Email"
+					input(type="email",placeholder="Email", value=post.email ? post.email : 'g.delgobbo@flyer.it', name='email')#email.form-control
+				p
+					label(for='password')="Password"
+					input(type="password",placeholder="Password", name='password', value=post.password ? post.password : '')#password.form-control
+		div.text-center
+			button(type='submit').btn.btn-success="Generate"
+- if (results.length)
+	each sheet,i in results
+		- console.log(sheet)
+		h1=sheet.title
+		div(id="menu"+i)
+			- each item in sheet.items
+				//- console.log(item)
+				- if (item.prezzo)
+					.row
+						.col-sm-11.grid.col-700(style="overflow:hidden")
+							span.food-menu-label!=''+item.nome+(item.descrizione ? '<br /><small>'+item.descrizione+'</small>' : '')
+						.col-sm-1.grid.col-220.fit
+							.food-menu-price.powered.text-right!=item.prezzo
+				- else
+					.row
+						.col-sm-12.grid.col-940!="&nbsp;"
+					.row
+						.col-sm-12.grid.col-940
+							b=item.nome
+		textarea.form-control(name="to")
+		div.text-center
+			br
+			button(type='submit').btn.btn-success="Compose email"
+br
+
+
+
+
+
+

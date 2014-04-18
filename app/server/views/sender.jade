@@ -1,0 +1,89 @@
+- var basetitle = "LPM 2014";
+//- var basetitle = "AVnode.net";
+script
+	var basetitle = "LPM 2014";
+form(method="post", action="/composer").form-horizontal#myform
+	.well
+		// store the userId on the client side in a hidden input field //
+		- if (typeof msg !== "undefined" && typeof msg.e !== "undefined" && msg.e.length)
+			.alert.alert-error
+				h4="There are some errors"
+				ul
+					- for(a=0;a<msg.e.length;a++)
+						li=msg.e[a].m
+		- if (typeof msg !== "undefined" && typeof msg.c !== "undefined" && msg.c.length)
+			.alert.alert-success
+				h4="There are some messages"
+				ul
+					- for(a=0;a<msg.c.length;a++)
+						li=msg.c[a].m
+		div.row
+			div.col-sm-6
+				p
+					label(for='from_name')="From name"
+					input(type="text",placeholder="From name", value=post.from_name ? post.from_name : 'Gianluca Del Gobbo', name='from_name')#from_name.form-control
+				p
+					label(for='from_email')="From Email"
+					input(type="email",		placeholder="From Email",	name='from_email', 	 value=post.from_email ? post.from_email : 'g.delgobbo@flyer.it')#from_email.form-control
+				p
+					label(for='from_password')="From Password"
+					input(type="password",	placeholder="From Password",name='from_password',value=post.from_password ? post.from_password : '')#from_password.form-control
+			div.col-sm-6
+				p
+					label(for='subject_add')="Subject"
+					input(type="text",onkeyup="jQuery('#subject_preview').html('[org_name] | '+basetitle+' '+this.value);jQuery('#subject').val('[org_name] | '+basetitle+' '+this.value)",placeholder="Subject", value=post.subject_add ? post.subject_add : '', name='subject_add')#subject_add.form-control
+					b#subject_preview!="[org_name] | "+basetitle+" "+(post.subject_add ? post.subject_add : '')
+					input(type="hidden",value=post.subject ? post.subject : '[org_name] | '+basetitle+' ', name='subject')#subject
+		div.row
+			div.col-sm-12
+				p
+					label(for='to')="To"
+					textarea(rows="3",name="to")#to.form-control=(post.to ? post.to : '')
+		div.row
+			div.col-sm-6
+				p
+					label(for='message_it')="Message IT"
+					textarea(rows="20",name="message_it")#message_it.form-control=(post.message_it ? post.message_it : 'Ciao [name],\n\n\n[signature]')
+			div.col-sm-6
+				p
+					label(for='message_en')="Message EN"
+					textarea(rows="20",name="message_en")#message_en.form-control=(post.message_it ? post.message_en : 'Ciao [name],\n\n\n[signature]')
+		div.text-center
+			button(type='submit').btn.btn-success="Compose"
+		- if (success[0].length || failed[0].length)
+			h1="Success"
+			textarea.form-control=success[0].join(',');
+			textarea.form-control=success[1].join('\n');
+			h1="Failed"
+			textarea.form-control=failed[0].join(',');
+			textarea.form-control=failed[1].join('\n');
+form(method="post", action="/sender").form-horizontal#myform
+	- if (results.length)
+		input(type="hidden",value=0, name='send')#send
+		ol
+			each item in results
+				if (item.status == post.status) 
+					console.log(item)
+					li
+						p=item.msg
+						p!="From: <b>"+item.from_html+"</b>"
+						p!="To: <b>"+item.to_html+"</b>"
+						p!="Subject: <b>"+item.subject+"</b>"
+						p="Message:"
+							pre=item["message_"+item.lang]
+		div.row
+			div.col-sm-6
+				div.pull-right
+					select(name="realsend")#status.form-control
+						option(selected=post.realsend == 0, value=0)='Test send'
+						option(selected=post.realsend == 1, value=1)='Real send'
+			div.col-sm-6
+				button(type='button', onclick='jQuery( "#send" ).val(1);jQuery( "#myform" ).submit();').btn.btn-success="Send"
+<br />
+//script(src='/js/client.js')
+
+
+
+
+
+
